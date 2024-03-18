@@ -1,3 +1,2 @@
 .DS_Store
-./nvim/autoload
-./nvim/plugged
+lazy-lock.json
