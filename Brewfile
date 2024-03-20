@@ -22,6 +22,8 @@ brew "yq"
 brew "zsh"
 brew "mas"
 brew "stow"
+brew "zsh-completions"
+
 cask "1password-cli"
 cask "firefox"
 cask "font-fira-code-nerd-font"
@@ -36,6 +38,7 @@ cask "spotify"
 cask "ssh-tunnel-manager"
 cask "zoom"
 cask "visual-studio-code"
+cask "google-chrome"
 
 mas "tailscale", id: 1475387142
 mas "microsoft-to-do", id: 1274495053
