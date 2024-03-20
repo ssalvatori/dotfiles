@@ -31,7 +31,9 @@ rm -rf ~/.zshrc && ln -s ~/.dotfiles/zsh/.zshrc ~/.zshrc
 
 Copy tmux configuration
 ```
+mkdir -p ~/bin
 ln -s ~/.dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
+ln -s ~/.dotfiles/bin/tmux-cht.sh ~/bin/tmux-cht.sh
 ```
 
 ### Mac Settings
