@@ -33,7 +33,12 @@ cask "raycast"
 cask "rectangle"
 cask "spotify"
 cask "ssh-tunnel-manager"
+cask "zoom"
+cask "visual-studio-code"
 
 mas "tailscale", id: 1475387142
 mas "microsoft-to-do", id: 1274495053
 mas "1password-for-safari", id: 1569813296
+
+vscode "asvetliakov.vscode-neovim"
+vscode "dracula-theme.theme-dracula"
