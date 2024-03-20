@@ -2,6 +2,11 @@
 
 ## Setup
 
+Clone repository
+```
+git clone https://github.com/ssalvatori/dotfiles.git ~/.dotfiles
+```
+
 Install Brew
 
 ```
@@ -11,7 +16,7 @@ export NONINTERACTIVE=1
 
 Install Brew's bundle module
 ```
-brew bundle
+brew bundle --file ~/.dotfiles/Brewfile
 ```
 
 Install Oh-My-Zsh
