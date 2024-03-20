@@ -24,6 +24,16 @@ Install Oh-My-Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 ```
 
+Copy zshrc configuration
+```
+rm -rf ~/.zshrc && ln -s ~/.dotfiles/zsh/.zshrc ~/.zshrc
+```
+
+Copy tmux configuration
+```
+ln -s ~/.dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
+```
+
 ### Mac Settings
 
 
