@@ -23,6 +23,8 @@ brew "zsh"
 brew "mas"
 brew "stow"
 brew "zsh-completions"
+brew "terraform"
+brew "tflint"
 
 cask "1password-cli"
 cask "firefox"
