@@ -4,7 +4,7 @@
 
 Clone repository
 ```
-git clone https://github.com/ssalvatori/dotfiles.git ~/.dotfiles
+git clone --recursive https://github.com/ssalvatori/dotfiles.git ~/.dotfiles
 ```
 
 Install Brew
