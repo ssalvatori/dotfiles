@@ -48,7 +48,7 @@ HYPHEN_INSENSITIVE="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-plugins=(git terraform direnv fzf golang)
+plugins=(git terraform direnv fzf golang vagrant)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -79,8 +79,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
-alias vim="nvim"
-alias vi="nvim"
 
 export EDITOR="nvim"
 export GIT_EDITOR="nvim"
@@ -101,6 +99,9 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_ALT_C_COMMAND="fd --type d . --color=never"
 
 alias v='fd --type f --exclude .git | fzf-tmux -p --reverse | xargs nvim'
+alias vim="nvim"
+alias vi="nvim"
+alias vimdiff="nvim -d"
 
 if [[ "$TMUX" ]]; then
     function lv() {
@@ -115,23 +116,6 @@ if [[ "$TMUX" ]]; then
     function eh() {
         tmux split-window -v vim "$@"
     }
-fi
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# homebrew completions
-# https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
-if type brew &>/dev/null
-then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-fi
-
-
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload -Uz compinit
-    compinit
 fi
 
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
