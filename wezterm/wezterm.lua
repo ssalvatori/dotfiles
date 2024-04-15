@@ -8,7 +8,7 @@ local config = wezterm.config_builder()
 
 config.font = wezterm.font("MonaspiceKr Nerd Font Mono")
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
-config.font_size = 12.5
+config.font_size = 13.5
 -- config.font = wezterm.font("JetBrains Mono")
 --
 -- config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
@@ -101,6 +101,15 @@ config.keys = {
 			end),
 		}),
 	},
+
+	{
+		key = "!",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(win, pane)
+			local tab, window = pane:move_to_new_tab()
+		end),
+	},
+
 	-- { key = "/", mods = "LEADER", action = wezterm.action.PaneSelect({ mode = "SwapWithActive" }) },
 }
 

@@ -4,7 +4,7 @@ source "./scripts/dock_functions.sh"
 
 declare -a apps=(
     '/Applications/Google Chrome.app'
-    '/Applications/iTerm.app'
+    '/Applications/WezTerm.app'
     '/Applications/Obsidian.app'
     '/Applications/Spotify.app'
 );

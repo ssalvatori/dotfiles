@@ -18,5 +18,8 @@ defaults write com.apple.Dock autohide-delay -float 0 # disable delay when you h
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false # Disable “natural” scrolling
 defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.volume" -int 0 # Show volume in the menu bar
 defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.bluetooth" -int 0 # Show Bluetooth in the menu bar
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false # Disable press-and-hold in VSCode
+
+#defaults delete -g ApplePressAndHoldEnabled # Disable press-and-hold in all apps
 
 killall Finder && killall Dock

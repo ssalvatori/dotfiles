@@ -118,6 +118,11 @@ if [[ "$TMUX" ]]; then
     }
 fi
 
+function prompt_dir() {
+  prompt_segment blue $CURRENT_FG '%2~'
+}
+
+
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --color=fg:#c0caf5,bg:#1a1b26,hl:#ff9e64 \
 --color=fg+:#c0caf5,bg+:#292e42,hl+:#ff9e64 \
@@ -125,3 +130,5 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
 
 export TFLINT_CONFIG_FILE="$HOME/.dotfiles/tflint/tflint.hcl"
+
+eval "$(fzf --zsh)"
