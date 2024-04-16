@@ -53,6 +53,11 @@ Wezterm configuration
 ln -s ~/.dotfiles/wezterm/wezterm.lua ~/.wezterm.lua
 ```
 
+Visual Studio Code
+```bash
+ln -s ~/.dotfiles/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+```
+
 ### Mac Settings
 
 ```bash

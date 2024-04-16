@@ -1,0 +1,73 @@
+{
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1
+  },
+  "files.trimTrailingWhitespace": true,
+  "inlineChat.holdToSpeech": false,
+  "keyboard.touchbar.enabled": false,
+  "update.showReleaseNotes": false,
+  "vim.autoindent": true,
+  "vim.easymotion": true,
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false,
+    "<C-p>": false,
+  },
+  "vim.hlsearch": true,
+  "vim.incsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "g",
+        "i"
+      ],
+      "commands": [
+        "editor.action.goToImplementation"
+      ]
+    }
+  ],
+  "vim.leader": "<space>",
+  "vim.normalModeKeyBindings": [
+    {
+      "before": [
+        "leader",
+        "s",
+        "f"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "d"
+      ],
+      "commands": [
+        "editor.action.goToDefinition"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "D"
+      ],
+      "commands": [
+        "editor.action.goToDeclaration"
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "i"
+      ],
+      "commands": [
+        "editor.action.goToImplementation"
+      ]
+    }
+  ],
+  "vim.useCtrlKeys": true,
+  "vim.useSystemClipboard": true,
+  "workbench.colorTheme": "Tokyo Night Storm",
+  "workbench.startupEditor": "none"
+}
