@@ -32,7 +32,13 @@ config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = true
 
 -- Window
-config.window_decorations = "RESIZE | MACOS_FORCE_ENABLE_SHADOW"
+-- config.window_decorations = "RESIZE | MACOS_FORCE_ENABLE_SHADOW"
+
+-- Set title buttons position
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.integrated_title_button_style = "Windows"
+config.integrated_title_buttons = { "Close", "Hide", "Maximize" }
+-- config.integrated_title_button_alignment = "Left"
 
 config.allow_square_glyphs_to_overflow_width = "Never"
 config.adjust_window_size_when_changing_font_size = false
@@ -67,8 +73,8 @@ config.keys = {
 	{ key = "c", mods = "LEADER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
 	{ key = "C", mods = "LEADER", action = wezterm.action.SpawnTab("DefaultDomain") },
 	{ key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentTab({ confirm = true }) },
-	{ key = "|", mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "=", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "|", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "=", mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	{ key = "m", mods = "LEADER", action = wezterm.action.TogglePaneZoomState },
 	{ key = "w", mods = "LEADER", action = wezterm.action.ShowTabNavigator },
 	{ key = "h", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
