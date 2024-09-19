@@ -29,6 +29,14 @@ mkdir -p ~/Pictures/Screenshots # Create screenshot folder
 
 defaults write com.apple.screencapture "location" -string "~/Pictures/Screenshots" # Change screenshot location
 
+defaults write com.apple.controlcenter.plist Bluetooth -int 18 # Show bluetooth in menubar
+
+defaults write -g NSWindowShouldDragOnGesture -bool true # move windows ctrl+cmd
+
+defaults write com.apple.dock expose-group-apps -bool true # group windows by application
+
+defaults write com.apple.spaces spans-displays -bool true # disable Displays have separate Spaces 
+
 # defaults write com.apple.Safari "ShowFullURLInSmartSearchField" -bool "true" # Show full URL in Safari
 
 killall SystemUIServer

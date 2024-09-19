@@ -52,42 +52,29 @@ plugins=(git terraform direnv fzf golang vagrant)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# history configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-#
-
+export HISTFILE=$HOME/.zsh_history
+# Set the history size to 2000 commands
+export HISTSIZE=20000
+# Store the same number to disk
+export SAVEHIST=$HISTSIZE
+# Share history between sessions
+setopt share_history
+# Remove duplicates first when HISTSIZE is met
+setopt hist_expire_dups_first
+# If a command is issued multiple times in a row, ignore dupes
+setopt hist_ignore_dups
+# Allow editing the command before executing again
+setopt hist_verify
+# Do not add commands prefixed with a space to the history
+setopt hist_ignore_space
 
 export EDITOR="nvim"
 export GIT_EDITOR="nvim"
 export PATH="$HOME/bin:/usr/local/opt/curl/bin:$PATH"
 export PATH="$HOME/.local/bin:$HOME/.bin:$PATH"
 
-export HISTSIZE=1000000000
-export SAVEHIST=1000000000
-export HISTFILE=~/.zsh_history
 export HIST_STAMPS="yyyy-mm-dd"
 
 export XDG_CONFIG_HOME=$HOME/.config/
@@ -97,11 +84,6 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --no-ignore-vcs"
 export FZF_DEFAULT_OPTS="--height 75% --layout=reverse --border"
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_ALT_C_COMMAND="fd --type d . --color=never"
-
-alias v='fd --type f --exclude .git | fzf-tmux -p --reverse | xargs nvim'
-alias vim="nvim"
-alias vi="nvim"
-alias vimdiff="nvim -d"
 
 if [[ "$TMUX" ]]; then
     function lv() {
@@ -130,5 +112,8 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
 
 export TFLINT_CONFIG_FILE="$HOME/.dotfiles/tflint/tflint.hcl"
+
+## Load aliases
+source ~/.zshrc_alias
 
 eval "$(fzf --zsh)"

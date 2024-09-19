@@ -8,6 +8,18 @@ Clone repository
 git clone --recursive https://github.com/ssalvatori/dotfiles.git ~/.dotfiles
 ```
 
+Install developer tools
+
+```bash
+xcode-select --install
+```
+
+Add user to development group
+
+```bash
+sudo dscl . append /Groups/_developer GroupMembership $(whoami)
+```
+
 Install Brew
 
 ```bash
@@ -39,6 +51,18 @@ Copy zshrc configuration
 rm -rf ~/.zshrc && ln -s ~/.dotfiles/zsh/.zshrc ~/.zshrc
 ```
 
+Copy neovim configuration
+
+```bash
+mkdir -p ~/.config/
+ln -s ~/.dotfiles/nvim ~/.config/nvim
+```
+
+Copu aerospace configuration
+```bash
+ln -s ~/.dotfiles/aerospace/ ~/.config/aerospace
+```
+
 Copy tmux configuration
 
 ```bash
@@ -68,4 +92,6 @@ chmod +x ./scripts/custom-setup.sh ./scripts/final-setup.sh
 
 ## TODO
 
-* Create a single script to configure everything
+* Create a single script to configure everything.
+* Hide text input from menubar (multiples keyboards layouts).
+* Disable spotlight key shortcat in favor of Raycat
