@@ -4,8 +4,12 @@ local wezterm = require("wezterm")
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
-local colors = require("lua/rose-pine").colors()
-local window_frame = require("lua/rose-pine").window_frame()
+config.keys = require("keys")
+
+-- local colors = require("lua/rose-pine").colors()
+-- local window_frame = require("lua/rose-pine").window_frame()
+
+config.color_scheme = "Catppuccin Mocha"
 
 -- This is where you actually apply your config choices
 
@@ -13,8 +17,8 @@ config.font = wezterm.font("MonaspiceKr Nerd Font Mono")
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 config.font_size = 13.5
 
-config.colors = colors
-config.window_frame = window_frame
+-- config.colors = colors
+-- config.window_frame = window_frame
 
 config.initial_cols = 200
 config.initial_rows = 80
@@ -61,54 +65,53 @@ config.inactive_pane_hsb = {
 config.default_workspace = "main"
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 
-config.keys = {
-	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
-	{ key = "LeftArrow", mods = "OPT", action = wezterm.action({ SendString = "\x1bb" }) },
-	-- -- Make Option-Right equivalent to Alt-f; forward-word
-	{ key = "RightArrow", mods = "OPT", action = wezterm.action({ SendString = "\x1bf" }) },
+-- Plugin
+local domains = wezterm.plugin.require("https://github.com/DavidRR-F/quick_domains.wezterm")
+domains.apply_to_config(config)
 
-	-- TMUX migration
-	{ key = "c", mods = "LEADER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
-	{ key = "C", mods = "LEADER", action = wezterm.action.SpawnTab("DefaultDomain") },
-	{ key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = true }) },
-	{ key = "|", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "=", mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "m", mods = "LEADER", action = wezterm.action.TogglePaneZoomState },
-	{ key = "w", mods = "LEADER", action = wezterm.action.ShowTabNavigator },
-	{ key = "h", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-	{ key = "j", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
-	{ key = "k", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-	{ key = "l", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
-	{ key = "n", mods = "LEADER", action = wezterm.action.ActivateTabRelative(1) },
-	{ key = "p", mods = "LEADER", action = wezterm.action.ActivateTabRelative(-1) },
-	{
-		key = ",",
-		mods = "LEADER",
-		action = wezterm.action.PromptInputLine({
-			description = "Enter new name for tab",
-			action = wezterm.action_callback(function(window, pane, line)
-				if line then
-					window:active_tab():set_title(line)
-				end
-			end),
-		}),
-	},
-
-	{
-		key = "!",
-		mods = "LEADER",
-		action = wezterm.action_callback(function(win, pane)
-			local tab, window = pane:move_to_new_tab()
-		end),
-	},
-}
-
-for i = 1, 9 do
-	table.insert(config.keys, {
-		key = tostring(i),
-		mods = "LEADER",
-		action = wezterm.action.ActivateTab(i - 1),
+domains.formatter = function(icon, name, _)
+	return wezterm.format({
+		{ Text = icon .. " " .. string.lower(name) },
 	})
 end
 
+wezterm.plugin.require("https://github.com/nekowinston/wezterm-bar").apply_to_config(config, {
+	position = "top",
+	max_width = 32,
+	dividers = "slant_right", -- or "slant_left", "arrows", "rounded", false
+	indicator = {
+		leader = {
+			enabled = true,
+			off = " ",
+			on = " ",
+		},
+		mode = {
+			enabled = true,
+			names = {
+				resize_mode = "RESIZE",
+				copy_mode = "VISUAL",
+				search_mode = "SEARCH",
+			},
+		},
+	},
+	tabs = {
+		numerals = "arabic", -- or "roman"
+		pane_count = "superscript", -- or "subscript", false
+		brackets = {
+			active = { "", ":" },
+			inactive = { "", ":" },
+		},
+	},
+	clock = { -- note that this overrides the whole set_right_status
+		enabled = false,
+		format = "%H:%M", -- use https://wezfurlong.org/wezterm/config/lua/wezterm.time/Time/format.html
+	},
+})
+
+local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
+workspace_switcher.apply_to_config(config)
+
+-- config.ssh_domains = require("lua/ssh-domains")
+
+require("events")
 return config
