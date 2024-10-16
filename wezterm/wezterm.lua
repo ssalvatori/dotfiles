@@ -1,24 +1,16 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
+local act = wezterm.action
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()
-
-config.keys = require("keys")
-
--- local colors = require("lua/rose-pine").colors()
--- local window_frame = require("lua/rose-pine").window_frame()
 
 config.color_scheme = "Catppuccin Mocha"
 
 -- This is where you actually apply your config choices
 
-config.font = wezterm.font("MonaspiceKr Nerd Font Mono")
-config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
-config.font_size = 13.5
-
--- config.colors = colors
--- config.window_frame = window_frame
+config.font = wezterm.font("FiraCode Nerd Font")
+config.font_size = 14
 
 config.initial_cols = 200
 config.initial_rows = 80
@@ -65,16 +57,6 @@ config.inactive_pane_hsb = {
 config.default_workspace = "main"
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 
--- Plugin
-local domains = wezterm.plugin.require("https://github.com/DavidRR-F/quick_domains.wezterm")
-domains.apply_to_config(config)
-
-domains.formatter = function(icon, name, _)
-	return wezterm.format({
-		{ Text = icon .. " " .. string.lower(name) },
-	})
-end
-
 wezterm.plugin.require("https://github.com/nekowinston/wezterm-bar").apply_to_config(config, {
 	position = "top",
 	max_width = 32,
@@ -111,7 +93,132 @@ wezterm.plugin.require("https://github.com/nekowinston/wezterm-bar").apply_to_co
 local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
 workspace_switcher.apply_to_config(config)
 
--- config.ssh_domains = require("lua/ssh-domains")
+workspace_switcher.get_choices = function(opts)
+	-- this will ONLY show the workspace elements, NOT the Zoxide results
+	return workspace_switcher.choices.get_workspace_elements({})
+end
+workspace_switcher.zoxide_path = "/opt/homebrew/bin/zoxide"
+
+workspace_switcher.apply_to_config(config)
+
+config.keys = {
+
+	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
+	{ key = "LeftArrow", mods = "OPT", action = wezterm.action({ SendString = "\x1bb" }) },
+	-- -- Make Option-Right equivalent to Alt-f; forward-word
+	{ key = "RightArrow", mods = "OPT", action = wezterm.action({ SendString = "\x1bf" }) },
+
+	-- TMUX migration
+	{ key = "c", mods = "LEADER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
+	{ key = "C", mods = "LEADER", action = wezterm.action.SpawnTab("DefaultDomain") },
+	{ key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = true }) },
+	{ key = "|", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "=", mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "m", mods = "LEADER", action = wezterm.action.TogglePaneZoomState },
+	{ key = "w", mods = "LEADER", action = wezterm.action.ShowTabNavigator },
+	{ key = "h", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+	{ key = "j", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+	{ key = "k", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+	{ key = "l", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+	{ key = "n", mods = "LEADER", action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "p", mods = "LEADER", action = wezterm.action.ActivateTabRelative(-1) },
+
+	-- create workspace for dotfiles
+	{
+		key = "d",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(window, pane)
+			window:perform_action(
+				act.SwitchToWorkspace({
+					name = ".dotfiles",
+					spawn = { cwd = wezterm.home_dir .. "/.dotfiles" },
+				}),
+				pane
+			)
+			-- window:set_right_status(window:active_workspace())
+		end),
+	},
+
+	{
+		key = "m",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(window, pane)
+			window:perform_action(
+				act.SwitchToWorkspace({
+					name = "mb-sip",
+					spawn = { cwd = wezterm.home_dir .. "/Source/MB/SIP" },
+				}),
+				pane
+			)
+			window:spawn_tab({ cmd = "./account-details/" })
+			window:spawn_tab({ cmd = "./" })
+			-- window:set_right_status(window:active_workspace())
+		end),
+	},
+
+	{ key = "n", mods = "ALT", action = act.SwitchWorkspaceRelative(1) },
+	{ key = "p", mods = "ALT", action = act.SwitchWorkspaceRelative(-1) },
+
+	-- rename tab
+	{
+		key = ",",
+		mods = "LEADER",
+		action = wezterm.action.PromptInputLine({
+			description = "Enter new name for tab",
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
+	-- switch between workspaces
+	{
+		key = "s",
+		mods = "LEADER",
+		action = workspace_switcher.switch_workspace(),
+	},
+	-- create workspaces
+	{
+		key = "o",
+		mods = "LEADER",
+		action = act.PromptInputLine({
+			description = wezterm.format({
+				{ Attribute = { Intensity = "Bold" } },
+				{ Foreground = { AnsiColor = "Fuchsia" } },
+				{ Text = "Enter name for new workspace" },
+			}),
+			action = wezterm.action_callback(function(window, pane, line)
+				-- `line` will be `nil` if user hits <ESC> without entering anything.
+				-- If enter is pressed, line will be the text they wrote; otherwise "".
+				if line then
+					window:perform_action(
+						act.SwitchToWorkspace({
+							name = line,
+						}),
+						pane
+					)
+				end
+			end),
+		}),
+	},
+	-- Move current pane to a new tab
+	{
+		key = "!",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(_, pane)
+			local _, _ = pane:move_to_new_tab()
+		end),
+	},
+}
+
+for i = 1, 9 do
+	table.insert(config.keys, {
+		key = tostring(i),
+		mods = "LEADER",
+		action = wezterm.action.ActivateTab(i - 1),
+	})
+end
 
 require("events")
 return config

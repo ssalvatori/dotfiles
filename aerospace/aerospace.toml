@@ -203,3 +203,9 @@ run = 'layout floating'
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
 run = "move-node-to-workspace S"
+
+
+# Discord
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = "move-node-to-workspace P"

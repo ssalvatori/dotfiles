@@ -48,7 +48,7 @@ HYPHEN_INSENSITIVE="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-plugins=(git terraform direnv fzf golang vagrant)
+plugins=(git terraform direnv fzf golang vagrant fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -117,3 +117,5 @@ export TFLINT_CONFIG_FILE="$HOME/.dotfiles/tflint/tflint.hcl"
 source ~/.zshrc_alias
 
 eval "$(fzf --zsh)"
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
