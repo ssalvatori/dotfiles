@@ -59,22 +59,27 @@ ln -s ~/.dotfiles/nvim ~/.config/nvim
 ```
 
 Copu aerospace configuration
-```bash
+```bash 
 ln -s ~/.dotfiles/aerospace/ ~/.config/aerospace
 ```
 
 Copy tmux configuration
 
 ```bash
-mkdir -p ~/bin ~/.config/tmux
+mkdir -p ~/.local/bin ~/.config/tmux
 ln -s ~/.dotfiles/tmux/tmux.conf ~/.config/tmux/tmux.conf
-ln -s ~/.dotfiles/bin/tmux-cht.sh ~/bin/tmux-cht.sh
+ln -s ~/.dotfiles/bin/tmux-cht.sh ~/.local/bin/tmux-cht.sh
+ln -s ~/.dotfiles/bin/tmux-sessionizer ~/.local/bin/tmux-sessionizer
 ```
 
 Wezterm configuration
 
 ```bash
 ln -s ~/.dotfiles/wezterm/wezterm.lua ~/.wezterm.lua
+``` 
+Fix path problem (for sessionizer)
+```bash
+sudo ln -s /opt/homebrew/bin/fd /usr/local/bin/fd
 ```
 
 Visual Studio Code
@@ -94,4 +99,4 @@ chmod +x ./scripts/custom-setup.sh ./scripts/final-setup.sh
 
 * Create a single script to configure everything.
 * Hide text input from menubar (multiples keyboards layouts).
-* Disable spotlight key shortcat in favor of Raycat
+* Disable spotlight key shortcut in favor of Raycat

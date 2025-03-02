@@ -35,7 +35,7 @@ defaults write -g NSWindowShouldDragOnGesture -bool true # move windows ctrl+cmd
 
 defaults write com.apple.dock expose-group-apps -bool true # group windows by application
 
-defaults write com.apple.spaces spans-displays -bool true # disable Displays have separate Spaces 
+defaults write com.apple.spaces spans-displays -bool true # disable Displays have separate Spaces
 
 # defaults write com.apple.Safari "ShowFullURLInSmartSearchField" -bool "true" # Show full URL in Safari
 

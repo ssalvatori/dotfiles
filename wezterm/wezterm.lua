@@ -3,17 +3,24 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 
 -- This will hold the configuration.
-local config = wezterm.config_builder()
+-- local config = wezterm.config_builder()
+local config = {}
+
+if wezterm.config_builder then
+	config = wezterm.config_builder()
+end
+
+config.max_fps = 120
 
 config.color_scheme = "Catppuccin Mocha"
 
 -- This is where you actually apply your config choices
 
 config.font = wezterm.font("FiraCode Nerd Font")
-config.font_size = 14
+config.font_size = 13.5
 
-config.initial_cols = 200
-config.initial_rows = 80
+-- config.initial_cols = 200
+-- config.initial_rows = 80
 config.macos_window_background_blur = 20
 
 config.window_close_confirmation = "NeverPrompt"
@@ -39,10 +46,10 @@ config.tab_bar_at_bottom = false
 config.allow_square_glyphs_to_overflow_width = "Never"
 config.adjust_window_size_when_changing_font_size = false
 config.window_padding = {
-	left = 10,
-	right = 10,
-	top = 10,
-	bottom = 10,
+	left = 15,
+	right = 15,
+	top = 15,
+	bottom = 15,
 }
 
 -- config.disable_default_mouse_bindings = true
@@ -54,40 +61,87 @@ config.inactive_pane_hsb = {
 	brightness = 0.5,
 }
 
+config.set_environment_variables = {
+	-- prepend the path to your utility and include the rest of the PATH
+	PATH = "/opt/homebrew/bin:" .. os.getenv("PATH"),
+}
+
 config.default_workspace = "main"
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 
-wezterm.plugin.require("https://github.com/nekowinston/wezterm-bar").apply_to_config(config, {
-	position = "top",
-	max_width = 32,
-	dividers = "slant_right", -- or "slant_left", "arrows", "rounded", false
-	indicator = {
-		leader = {
-			enabled = true,
-			off = " ",
-			on = " ",
+-- wezterm.plugin.require("https://github.com/nekowinston/wezterm-bar").apply_to_config(config, {
+-- 	position = "top",
+-- 	max_width = 32,
+-- 	dividers = "slant_right", -- or "slant_left", "arrows", "rounded", false
+-- 	indicator = {
+-- 		leader = {
+-- 			enabled = true,
+-- 			off = " ",
+-- 			on = " ",
+-- 		},
+-- 		mode = {
+-- 			enabled = true,
+-- 			names = {
+-- 				resize_mode = "RESIZE",
+-- 				copy_mode = "VISUAL",
+-- 				search_mode = "SEARCH",
+-- 			},
+-- 		},
+-- 	},
+-- 	tabs = {
+-- 		numerals = "arabic", -- or "roman"
+-- 		pane_count = "superscript", -- or "subscript", false
+-- 		brackets = {
+-- 			active = { "", ":" },
+-- 			inactive = { "", ":" },
+-- 		},
+-- 	},
+-- 	clock = { -- note that this overrides the whole set_right_status
+-- 		enabled = false,
+-- 		format = "%H:%M", -- use https://wezfurlong.org/wezterm/config/lua/wezterm.time/Time/format.html
+-- 	},
+-- })
+
+local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+-- tabline.setup({
+-- 	sections = { tabline_b = {}, tabline_x = {}, tabline_y = {}, tabline_z = { "workspace" } },
+-- })
+
+tabline.setup({
+	options = {
+		icons_enabled = true,
+		theme = "Catppuccin Mocha",
+		color_overrides = {},
+		section_separators = {
+			left = wezterm.nerdfonts.pl_left_hard_divider,
+			right = wezterm.nerdfonts.pl_right_hard_divider,
 		},
-		mode = {
-			enabled = true,
-			names = {
-				resize_mode = "RESIZE",
-				copy_mode = "VISUAL",
-				search_mode = "SEARCH",
-			},
+		component_separators = {
+			left = wezterm.nerdfonts.pl_left_soft_divider,
+			right = wezterm.nerdfonts.pl_right_soft_divider,
+		},
+		tab_separators = {
+			left = wezterm.nerdfonts.pl_left_hard_divider,
+			right = wezterm.nerdfonts.pl_right_hard_divider,
 		},
 	},
-	tabs = {
-		numerals = "arabic", -- or "roman"
-		pane_count = "superscript", -- or "subscript", false
-		brackets = {
-			active = { "", ":" },
-			inactive = { "", ":" },
+	sections = {
+		tabline_a = { "mode" },
+		tabline_b = { "" },
+		tabline_c = { " " },
+		tab_active = {
+			"index",
+			{ "parent", padding = 0 },
+			"/",
+			{ "cwd", padding = { left = 0, right = 1 } },
+			{ "zoomed", padding = 0 },
 		},
+		tab_inactive = { "index", { "process", padding = { left = 0, right = 1 } } },
+		tabline_x = {},
+		tabline_y = {},
+		tabline_z = { "workspace" },
 	},
-	clock = { -- note that this overrides the whole set_right_status
-		enabled = false,
-		format = "%H:%M", -- use https://wezfurlong.org/wezterm/config/lua/wezterm.time/Time/format.html
-	},
+	extensions = {},
 })
 
 local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm")
@@ -99,7 +153,36 @@ workspace_switcher.get_choices = function(opts)
 end
 workspace_switcher.zoxide_path = "/opt/homebrew/bin/zoxide"
 
+workspace_switcher.workspace_formatter = function(label)
+	return wezterm.format({
+		-- { Attribute = { Italic = true } },
+		-- { Foreground = { Color = "green" } },
+		-- { Background = { Color = "black" } },
+		{ Text = "󱂬: " .. label },
+	})
+end
+
 workspace_switcher.apply_to_config(config)
+
+local sessionizer = wezterm.plugin.require("https://github.com/mikkasendke/sessionizer.wezterm")
+
+sessionizer.config = {
+	paths = {
+		"/Users/stefano/Source/MB/HELIOS",
+		"/Users/stefano/Source/MB/SIP",
+		"/Users/stefano/Stuff",
+	},
+	experimental_branches = false,
+}
+sessionizer.apply_to_config(config, true)
+
+local cmd_sender = wezterm.plugin.require("https://github.com/aureolebigben/wezterm-cmd-sender")
+
+cmd_sender.apply_to_config(config, {
+	key = "mapped:]",
+	mods = "CMD",
+	description = "Enter command to send to all panes of active tab",
+})
 
 config.keys = {
 
@@ -125,7 +208,7 @@ config.keys = {
 
 	-- create workspace for dotfiles
 	{
-		key = "d",
+		key = "'",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
 			window:perform_action(
@@ -135,23 +218,6 @@ config.keys = {
 				}),
 				pane
 			)
-			-- window:set_right_status(window:active_workspace())
-		end),
-	},
-
-	{
-		key = "m",
-		mods = "LEADER",
-		action = wezterm.action_callback(function(window, pane)
-			window:perform_action(
-				act.SwitchToWorkspace({
-					name = "mb-sip",
-					spawn = { cwd = wezterm.home_dir .. "/Source/MB/SIP" },
-				}),
-				pane
-			)
-			window:spawn_tab({ cmd = "./account-details/" })
-			window:spawn_tab({ cmd = "./" })
 			-- window:set_right_status(window:active_workspace())
 		end),
 	},
@@ -210,6 +276,16 @@ config.keys = {
 			local _, _ = pane:move_to_new_tab()
 		end),
 	},
+	{
+		key = "k",
+		mods = "CMD",
+		action = sessionizer.show,
+	},
+	{
+		key = "m",
+		mods = "CMD",
+		action = sessionizer.switch_to_most_recent,
+	},
 }
 
 for i = 1, 9 do
@@ -221,4 +297,5 @@ for i = 1, 9 do
 end
 
 require("events")
+
 return config
