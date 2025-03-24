@@ -4,6 +4,7 @@ clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
 
+theme = "/users/stefano/.local/share/nvim/lazy/tokyonight.nvim/extras/ghostty/tokyonight_storm"
 # window-decoration = none
 
 # font-family = "FiraCode Nerd Font"
