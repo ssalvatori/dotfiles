@@ -1,5 +1,4 @@
 .DS_Store
 lazy-lock.json
 Brewfile.lock.json
-sync-ce.sh
-sync-helios.sh
+sync*.sh
