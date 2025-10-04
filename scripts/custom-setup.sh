@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # Source: https://macos-defaults.com/
 
 defaults write com.apple.Finder ShowRecentTags -bool false # Disable tags in Finder
@@ -37,6 +39,8 @@ defaults write com.apple.dock expose-group-apps -bool true # group windows by ap
 
 defaults write com.apple.spaces spans-displays -bool true # disable Displays have separate Spaces
 
+defaults write -g InitialKeyRepeat -int 5 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 # defaults write com.apple.Safari "ShowFullURLInSmartSearchField" -bool "true" # Show full URL in Safari
 
 killall SystemUIServer
