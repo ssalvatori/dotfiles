@@ -22,7 +22,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
-accordion-padding = 30
+accordion-padding = 0
 # Possible values: tiles|accordion
 default-root-container-layout = "tiles"
 # Possible values: horizontal|vertical|auto
@@ -52,12 +52,12 @@ preset = "qwerty"
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = [{ monitor."built-in" = 2 }, 7]
-inner.vertical = [{ monitor."built-in" = 2 }, 7]
-outer.left = [{ monitor."built-in" = 2 }, 7]
-outer.bottom = [{ monitor."built-in" = 2 }, 7]
-outer.top = [{ monitor."built-in" = 2 }, 7]
-outer.right = [{ monitor."built-in" = 2 }, 7]
+inner.horizontal = [{ monitor."built-in" = 2 }, 5]
+inner.vertical = [{ monitor."built-in" = 2 }, 5]
+outer.left = [{ monitor."built-in" = 2 }, 5]
+outer.bottom = [{ monitor."built-in" = 2 }, 5]
+outer.top = [{ monitor."built-in" = 2 }, 5]
+outer.right = [{ monitor."built-in" = 2 }, 5]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -203,6 +203,14 @@ if.app-id = "com.spotify.client"
 run = "move-node-to-workspace S"
 check-further-callbacks = true
 
+# com.microsoft.teams2
+
+# Outlook
+[[on-window-detected]]
+if.app-id = "com.microsoft.Outlook"
+run = "move-node-to-workspace 3"
+check-further-callbacks = true
+
 # Discord
 [[on-window-detected]]
 if.app-id = "com.hnc.Discord"
@@ -226,7 +234,8 @@ run = "move-node-to-workspace C"
 # 6 =
 T = "main"
 P = "main"
-C = "DELL U2422HE"
+# C= "DELL U2422HE"
+C = "2778X"
 
 # https://github.com/nikitabobko/AeroSpace/issues/2#issuecomment-2429380283
 

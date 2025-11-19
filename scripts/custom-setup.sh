@@ -42,6 +42,20 @@ defaults write com.apple.spaces spans-displays -bool true # disable Displays hav
 defaults write -g InitialKeyRepeat -int 5 # normal minimum is 15 (225 ms)
 defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 # defaults write com.apple.Safari "ShowFullURLInSmartSearchField" -bool "true" # Show full URL in Safari
+#
+
+#Disable LiquidGlass 
+defaults write -g com.apple.SwiftUI.DisableSolarium -bool YES
+
+defaults write pro.betterdisplay.BetterDisplay sliderRevealAnimation YES
+
+defaults write com.apple.dock autohide-time-modifier -float 0.15
+# revert 
+# defaults delete com.apple.dock autohide-time-modifier;killall Dock
+#
+
+# Minimiza 
+defaults write com.apple.dock mineffect -string scale
 
 killall SystemUIServer
 killall Finder

@@ -75,7 +75,7 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
 --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
 
-export TFLINT_CONFIG_FILE="$HOME/.dotfiles/tflint/tflint.hcl"
+export TFLINT_CONFIG_FILE="$HOME/.dotfiles/master/tflint/tflint.hcl"
 
 bindkey -s ^f "~/.local/bin/tmux-sessionizer\n"
 
