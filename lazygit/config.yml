@@ -1,0 +1,14 @@
+gui:
+  border: single
+  sidePanelWidth: 0.3
+  authorColors:
+    "Pawel Grzybek": "yellow"
+    "*": "default"
+  theme:
+    selectedLineBgColor:
+      - black
+os:
+  editPreset: "nvim"
+git:
+  pagers:
+    - externalDiffCommand: difft --syntax-highlight=off --context=6
