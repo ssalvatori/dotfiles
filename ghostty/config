@@ -4,7 +4,7 @@ clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
 
-background-opacity = 0.85
+background-opacity = 0.95
 
 # window-decoration = none
 
