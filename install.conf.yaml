@@ -1,0 +1,64 @@
+- defaults:
+    link:
+      force: true
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.zshrc: zsh/zshrc
+
+    ~/.config/zsh:
+      create: true
+      path: zsh
+      exclude: ['zshrc']
+
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.config/tmux: tmux
+
+    ~/.config/rex:
+      create: true
+      path: rex
+
+    ~/.local/bin : bin
+    ~/.config/ghostty: ghostty
+    ~/.config/lazygit: lazygit
+
+    ~/.config/nvim:
+      create: true
+      path: nvim
+
+    ~/Library/Application\ Support/Code/User/settings.json:
+      if: '[ `uname` = Darwin ]'
+      path: vscode/settings.json
+
+    ~/.config/aerospace:
+      if: '[ `uname` = Darwin ]'
+      path: aerospace
+
+    ~/.tflint.hcl:
+      path: tflint/tflint.hcl
+
+- shell:
+  -
+    description: Installing submodules
+    command: git submodule update --init --recursive
+
+  -
+    description: Set fish as the default shell
+    command: chsh -s $(which zsh)
+
+  -
+    description: Installing Neovim Nightly
+    command: /bin/bash scripts/install_neovim.sh
+
+  -
+    description: Fix path problem (for sessionizer)
+    command: ln -s /opt/homebrew/bin/fd /usr/local/bin/fd
+
+
+- shell:
+  - [git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm]
+
+- brewfile:
+  - Brewfile
