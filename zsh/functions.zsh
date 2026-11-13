@@ -57,3 +57,8 @@ source_package() {
 	    fi
 	done
 }
+
+ip () {
+    echo "Public IP:  $(dig -2 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')"
+    echo "Private IP: $(ipconfig getifaddr en0)"
+}
