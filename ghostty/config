@@ -16,23 +16,20 @@ cursor-style = block
 cursor-style-blink = true
 
 # Hide cursor during shell integration animations
-shell-integration-features = no-cursor 
+shell-integration-features = no-cursor,ssh-terminfo,ssh-env
 mouse-hide-while-typing = true
 
 
 # adjust-cell-height = 10%
 #command = /bin/zsh -c "tmux new -A -s work"
-mouse-hide-while-typing = true
 # macos-non-native-fullscreen=visible-menu
 # macos-option-as-alt = true
 # macos-titlebar-style = hidden
-#
-shell-integration-features = ssh-terminfo,ssh-env
 keybind = global:cmd+backquote=toggle_quick_terminal
 
 theme = mac-clear-dark
 
-# Prevents Ghostty from trying to resize the window in 'steps' 
+# Prevents Ghostty from trying to resize the window in 'steps'
 # This makes it play much nicer with tiling window managers.
 window-step-resize = false
 
@@ -46,4 +43,3 @@ window-padding-x = 10
 window-padding-y = 10
 window-padding-balance = true
 
-mouse-hide-while-typing = true
